@@ -1,6 +1,9 @@
 ---
 sidebar_position: 1
+qr: true
 ---
+import QR from '@site/src/components/QR';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # Create a Page
 
@@ -41,3 +44,5 @@ This is a Markdown page
 ```
 
 A new page is now available at [http://localhost:3000/my-markdown-page](http://localhost:3000/my-markdown-page).
+
+<QR caption="Get the QR code for this page" />

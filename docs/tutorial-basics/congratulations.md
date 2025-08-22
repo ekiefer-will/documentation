@@ -1,6 +1,9 @@
 ---
 sidebar_position: 6
+qr: true
 ---
+import QR from '@site/src/components/QR';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # Congratulations!
 
@@ -21,3 +24,5 @@ Anything **unclear** or **buggy** in this tutorial? [Please report it!](https://
 - Add a [search bar](https://docusaurus.io/docs/search)
 - Find inspirations in the [Docusaurus showcase](https://docusaurus.io/showcase)
 - Get involved in the [Docusaurus Community](https://docusaurus.io/community/support)
+
+<QR caption="Get the QR code for this page" />

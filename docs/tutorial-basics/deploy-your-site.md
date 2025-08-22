@@ -1,6 +1,9 @@
 ---
 sidebar_position: 5
+qr: true
 ---
+import QR from '@site/src/components/QR';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # Deploy your site
 
@@ -29,3 +32,5 @@ npm run serve
 The `build` folder is now served at [http://localhost:3000/](http://localhost:3000/).
 
 You can now deploy the `build` folder **almost anywhere** easily, **for free** or very small cost (read the **[Deployment Guide](https://docusaurus.io/docs/deployment)**).
+
+<QR caption="Get the QR code for this page" />

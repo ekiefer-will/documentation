@@ -1,6 +1,9 @@
 ---
 sidebar_position: 2
+qr: true
 ---
+import QR from '@site/src/components/QR';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # Create a Document
 
@@ -55,3 +58,4 @@ export default {
   ],
 };
 ```
+<QR caption="Get the QR code for this page" />

@@ -16,4 +16,4 @@ Example of a light fixture.
 
 <img src={useBaseUrl('/products/hsx/hsx.png')} alt="HSX fixture" width="400" />
 
-<QR caption="Get the QR code" />
+<QR caption="Get the QR code for this page" />
