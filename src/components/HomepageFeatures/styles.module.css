@@ -9,3 +9,30 @@
   height: 200px;
   width: 200px;
 }
+
+.cardLink {
+  display: block;
+  text-decoration: none;               /* remove underline */
+  border-radius: var(--ifm-card-border-radius, 0.5rem);
+  transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease;
+}
+
+.cardLink:hover {
+  transform: translateY(-3px);         /* subtle lift */
+  box-shadow: var(--ifm-global-shadow-lw);
+  background-color: var(--ifm-color-emphasis-100); /* highlight bg */
+  text-decoration: none;               /* ensure no underline */
+}
+
+.featureSvg {
+  height: 120px;
+  margin: 1rem auto 0;
+}
+
+.featureTitle {
+  margin-bottom: .25rem;
+}
+
+.featureDesc {
+  margin: 0;
+}

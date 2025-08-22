@@ -9,6 +9,8 @@ import QR from '@site/src/components/QR';
 
 This is a test.
 
-Here’s a link to the QR code for this page:
+Example of a light fixture.
+
+![](../static/products/hsx/hsx.webp)
 
 <QR caption="Get the QR code" />

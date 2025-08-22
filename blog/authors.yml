@@ -1,25 +1,35 @@
-yangshun:
-  name: Yangshun Tay
-  title: Ex-Meta Staff Engineer, Co-founder GreatFrontEnd
-  url: https://linkedin.com/in/yangshun
-  image_url: https://github.com/yangshun.png
+kiefer:
+  name: Eric Kiefer
+  title: Engineer
+  url: https://www.linkedin.com/in/eric-kiefer-aa2b974/
+  image_url: https://media.licdn.com/dms/image/v2/C4E03AQGbf7PfykJWng/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1517721849322?e=1758758400&v=beta&t=NomqzCjOjF_zNx0Vs3BBXFCDhEqbANIX9Ja4lakOxuA
   page: true
   socials:
-    x: yangshunz
-    linkedin: yangshun
-    github: yangshun
-    newsletter: https://www.greatfrontend.com
+    linkedin: eric-kiefer-aa2b974
+    github: ekiefer-will
 
-slorber:
-  name: Sébastien Lorber
-  title: Docusaurus maintainer
-  url: https://sebastienlorber.com
-  image_url: https://github.com/slorber.png
-  page:
-    # customize the url of the author page at /blog/authors/<permalink>
-    permalink: '/all-sebastien-lorber-articles'
-  socials:
-    x: sebastienlorber
-    linkedin: sebastienlorber
-    github: slorber
-    newsletter: https://thisweekinreact.com
+# yangshun:
+#   name: Yangshun Tay
+#   title: Ex-Meta Staff Engineer, Co-founder GreatFrontEnd
+#   url: https://linkedin.com/in/yangshun
+#   image_url: https://github.com/yangshun.png
+#   page: true
+#   socials:
+#     x: yangshunz
+#     linkedin: yangshun
+#     github: yangshun
+#     newsletter: https://www.greatfrontend.com
+
+# slorber:
+#   name: Sébastien Lorber
+#   title: Docusaurus maintainer
+#   url: https://sebastienlorber.com
+#   image_url: https://github.com/slorber.png
+#   page:
+#     # customize the url of the author page at /blog/authors/<permalink>
+#     permalink: '/all-sebastien-lorber-articles'
+#   socials:
+#     x: sebastienlorber
+#     linkedin: sebastienlorber
+#     github: slorber
+#     newsletter: https://thisweekinreact.com
