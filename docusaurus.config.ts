@@ -51,8 +51,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts', // If you convert sidebars to TS, change to './sidebars.ts'
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: undefined,
         },
         blog: {
           showReadingTime: true,
@@ -61,7 +60,7 @@ const config: Config = {
             xslt: true,
           },
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            undefined,
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
@@ -95,7 +94,7 @@ const config: Config = {
         {to: '/blog', label: 'Blog', position: 'left'},
         {to: '/qr', label: 'QR Codes', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/ekiefer-will/documentation',
           label: 'GitHub',
           position: 'right',
         },
@@ -112,18 +111,16 @@ const config: Config = {
           title: 'Community',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Main Website',
+              href: 'https://willbrands.com',
             },
-            {label: 'Discord', href: 'https://discordapp.com/invite/docusaurus'},
-            {label: 'X', href: 'https://x.com/docusaurus'},
           ],
         },
         {
           title: 'More',
           items: [
             {label: 'Blog', to: '/blog'},
-            {label: 'GitHub', href: 'https://github.com/facebook/docusaurus'},
+            {label: 'GitHub', href: 'https://github.com/ekiefer-will/documentation'},
           ],
         },
       ],

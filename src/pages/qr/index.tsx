@@ -1,13 +1,28 @@
 import React from "react";
 import Layout from "@theme/Layout";
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
 type ManifestItem = {
   title: string;
-  url: string;   // destination page
-  file: string;  // QR PNG path under /qr
+  url: string;   // destination page (absolute or site-relative)
+  file: string;  // QR PNG path under /qr (site-relative)
 };
 
+function joinBase(baseUrl: string, pathOrUrl: string): string {
+  // Leave absolute URLs alone
+  if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
+  // Ensure exactly one slash between base and path
+  const base = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+  const path = pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`;
+  return `${base}${path}`;
+}
+
 export default function QRIndex() {
+  const { siteConfig } = useDocusaurusContext();
+  const baseUrl = siteConfig?.baseUrl ?? "/";
+  const manifestUrl = useBaseUrl("/qr/_manifest.json");
+
   const [items, setItems] = React.useState<ManifestItem[]>([]);
   const [query, setQuery] = React.useState("");
   const [loading, setLoading] = React.useState(true);
@@ -18,9 +33,18 @@ export default function QRIndex() {
     let alive = true;
     (async () => {
       try {
-        const res = await fetch("/qr/_manifest.json", { cache: "no-store" });
+        const res = await fetch(manifestUrl, { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = (await res.json()) as ManifestItem[];
+
+        // Guard against HTML (e.g., a 404 page)
+        const text = await res.text();
+        if (text.trim().startsWith("<")) {
+          throw new Error(
+            "Received HTML instead of JSON (check .nojekyll and path)"
+          );
+        }
+
+        const data = JSON.parse(text) as ManifestItem[];
         if (alive) setItems(Array.isArray(data) ? data : []);
       } catch (e: any) {
         if (alive) setError(e?.message || "Failed to load manifest");
@@ -31,16 +55,16 @@ export default function QRIndex() {
     return () => {
       alive = false;
     };
-  }, []);
+  }, [manifestUrl]);
 
   const normalized = query.trim().toLowerCase();
   const filtered = !normalized
     ? items
     : items.filter(
         (it) =>
-          it.title.toLowerCase().includes(normalized) ||
-          it.url.toLowerCase().includes(normalized) ||
-          it.file.toLowerCase().includes(normalized)
+          (it.title || "").toLowerCase().includes(normalized) ||
+          (it.url || "").toLowerCase().includes(normalized) ||
+          (it.file || "").toLowerCase().includes(normalized)
       );
 
   async function copyToClipboard(text: string, idx: number) {
@@ -60,8 +84,8 @@ export default function QRIndex() {
           <div className="col col--12">
             <h1 style={{ marginBottom: 8 }}>QR Codes</h1>
             <p style={{ marginTop: 0, opacity: 0.75 }}>
-              Generated for docs with <code>qr: true</code> in front matter.{" "}
-              <a href="/qr/_manifest.json" target="_blank" rel="noreferrer">
+              Generated for docs with <code>qr: true</code> in front matter{" "}
+              <a href={manifestUrl} target="_blank" rel="noreferrer">
                 View manifest
               </a>
               .
@@ -98,7 +122,7 @@ export default function QRIndex() {
             {loading && <p>Loading…</p>}
             {error && (
               <div className="alert alert--danger" role="alert">
-                Failed to load <code>/qr/_manifest.json</code>: {error}
+                Failed to load <code>{manifestUrl}</code>: {error}
               </div>
             )}
 
@@ -116,89 +140,95 @@ export default function QRIndex() {
                 gap: 24,
               }}
             >
-              {filtered.map((it, i) => (
-                <article
-                  key={`${it.file}-${i}`}
-                  style={{
-                    border: "1px solid var(--ifm-toc-border-color, #e6e6e6)",
-                    borderRadius: 12,
-                    padding: 16,
-                    background: "var(--ifm-card-background-color)",
-                  }}
-                >
-                  <a
-                    href={it.file}
-                    target="_blank"
-                    rel="noreferrer"
-                    title="Open PNG in a new tab"
-                    style={{ display: "block", textAlign: "center" }}
-                  >
-                    <img
-                      src={it.file}
-                      alt={it.title || it.url}
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                        maxWidth: 360,
-                        margin: "0 auto",
-                      }}
-                      loading="lazy"
-                    />
-                  </a>
+              {filtered.map((it, i) => {
+                const fileHref = joinBase(baseUrl, it.file);
+                const pageHref = joinBase(baseUrl, it.url);
+                const absoluteFileUrl =
+                  typeof window !== "undefined"
+                    ? new URL(fileHref, window.location.href).href
+                    : fileHref;
 
-                  <div style={{ marginTop: 10, fontWeight: 600 }}>
-                    {it.title || it.url}
-                  </div>
-                  <div
+                return (
+                  <article
+                    key={`${it.file}-${i}`}
                     style={{
-                      fontSize: 12,
-                      opacity: 0.75,
-                      wordBreak: "break-all",
-                      marginTop: 4,
-                    }}
-                    title={it.url}
-                  >
-                    {it.url}
-                  </div>
-
-                  {/* Stacked, full-width buttons */}
-                  <div
-                    style={{
-                      display: "grid",
-                      gap: 8,
-                      marginTop: 12,
+                      border: "1px solid var(--ifm-toc-border-color, #e6e6e6)",
+                      borderRadius: 12,
+                      padding: 16,
+                      background: "var(--ifm-card-background-color)",
                     }}
                   >
                     <a
-                      className="button button--sm button--primary button--block"
-                      href={it.file}
-                      download
-                      title="Download PNG"
-                    >
-                      Download
-                    </a>
-                    <button
-                      className="button button--sm button--secondary button--block"
-                      onClick={() =>
-                        copyToClipboard(window.location.origin + it.file, i)
-                      }
-                      type="button"
-                      title="Copy image URL"
-                    >
-                      {copiedIdx === i ? "Copied!" : "Copy image URL"}
-                    </button>
-                    <a
-                      className="button button--sm button--secondary button--block"
-                      href={it.url}
+                      href={fileHref}
                       target="_blank"
                       rel="noreferrer"
-                      title="Open destination page"
+                      title="Open PNG in a new tab"
+                      style={{ display: "block", textAlign: "center" }}
                     >
-                      Open page
+                      <img
+                        src={fileHref}
+                        alt={it.title || it.url}
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          maxWidth: 360,
+                          margin: "0 auto",
+                        }}
+                        loading="lazy"
+                      />
                     </a>
-                  </div>
-                </article>
-              ))}
+
+                    <div style={{ marginTop: 10, fontWeight: 600 }}>
+                      {it.title || it.url}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 12,
+                        opacity: 0.75,
+                        wordBreak: "break-all",
+                        marginTop: 4,
+                      }}
+                      title={it.url}
+                    >
+                      {pageHref}
+                    </div>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gap: 8,
+                        marginTop: 12,
+                      }}
+                    >
+                      <a
+                        className="button button--sm button--primary button--block"
+                        href={fileHref}
+                        download
+                        title="Download PNG"
+                      >
+                        Download
+                      </a>
+                      <button
+                        className="button button--sm button--secondary button--block"
+                        onClick={() => copyToClipboard(absoluteFileUrl, i)}
+                        type="button"
+                        title="Copy image URL"
+                      >
+                        {copiedIdx === i ? "Copied!" : "Copy image URL"}
+                      </button>
+                      <a
+                        className="button button--sm button--secondary button--block"
+                        href={pageHref}
+                        target="_blank"
+                        rel="noreferrer"
+                        title="Open destination page"
+                      >
+                        Open page
+                      </a>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </div>
