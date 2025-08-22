@@ -6,11 +6,14 @@ slug: /my-cool-test
 qr: true
 ---
 import QR from '@site/src/components/QR';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+
 
 This is a test.
 
 Example of a light fixture.
 
-![](../static/products/hsx/hsx.webp)
+<img src={useBaseUrl('/products/hsx/hsx.png')} alt="HSX fixture" width="400" />
 
 <QR caption="Get the QR code" />
