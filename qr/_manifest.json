@@ -5,6 +5,11 @@
     "file": "/qr/docs_my-cool-test.png"
   },
   {
+    "title": "Test 2",
+    "url": "https://ekiefer-will.github.io/documentation/docs/test2",
+    "file": "/qr/docs_test2.png"
+  },
+  {
     "title": "congratulations",
     "url": "https://ekiefer-will.github.io/documentation/docs/tutorial-basics/congratulations",
     "file": "/qr/docs_tutorial-basics_congratulations.png"
